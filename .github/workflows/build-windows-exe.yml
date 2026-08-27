@@ -35,6 +35,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Test Torah audio index
+        shell: pwsh
+        run: |
+          python -m unittest -v test_torah_audio_index.py
+
       - name: Build EXE
         shell: pwsh
         run: |
