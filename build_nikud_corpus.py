@@ -8,7 +8,7 @@ from torah_audio_index import build_audio_index
 
 
 HERE = Path(__file__).resolve().parent
-SOURCE = HERE.parent / "tikun-korim-pages-nikud"
+SOURCE = HERE / "tikun-korim-pages-nikud"
 TARGET = HERE / "torah_nikud.json"
 AUDIO_INDEX_TARGET = HERE / "torah_audio_index.json"
 
@@ -51,6 +51,8 @@ def main() -> None:
     print(
         f"Wrote {AUDIO_INDEX_TARGET} "
         f"({audio_index['uniqueVocalizedWords']:,} vocalized word forms, "
+        f"{audio_index['uniquePlainWords']:,} plain forms, "
+        f"{audio_index['ambiguousPlainWords']:,} ambiguous plain forms, "
         f"{audio_index['totalTokens']:,} total tokens)"
     )
 
