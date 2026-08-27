@@ -4,10 +4,13 @@ import json
 import re
 from pathlib import Path
 
+from torah_audio_index import build_audio_index
+
 
 HERE = Path(__file__).resolve().parent
 SOURCE = HERE.parent / "tikun-korim-pages-nikud"
 TARGET = HERE / "torah_nikud.json"
+AUDIO_INDEX_TARGET = HERE / "torah_audio_index.json"
 
 
 def main() -> None:
@@ -37,7 +40,19 @@ def main() -> None:
         json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",
     )
+
+    audio_index = build_audio_index(payload)
+    AUDIO_INDEX_TARGET.write_text(
+        json.dumps(audio_index, ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+    )
+
     print(f"Wrote {TARGET} ({TARGET.stat().st_size:,} bytes, {len(pages)} pages)")
+    print(
+        f"Wrote {AUDIO_INDEX_TARGET} "
+        f"({audio_index['uniqueVocalizedWords']:,} vocalized word forms, "
+        f"{audio_index['totalTokens']:,} total tokens)"
+    )
 
 
 if __name__ == "__main__":
