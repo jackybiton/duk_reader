@@ -13,6 +13,7 @@ on:
       - "tessdata/**"
       - "offline_voice_models/**"
       - "private_voice_models/**"
+      - "tikun-korim-pages-nikud/**"
       - ".github/workflows/build-windows-exe.yml"
 
 jobs:
@@ -39,6 +40,21 @@ jobs:
         shell: pwsh
         run: |
           python -m unittest -v test_torah_audio_index.py
+
+      - name: Build Torah corpus and audio index
+        shell: pwsh
+        run: |
+          python build_nikud_corpus.py
+
+      - name: Upload Torah index artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Torah-Audio-Index
+          path: |
+            torah_nikud.json
+            torah_audio_index.json
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Build EXE
         shell: pwsh
