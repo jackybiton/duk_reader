@@ -41,15 +41,16 @@ class TorahAudioIndexTests(unittest.TestCase):
         self.assertEqual(record["first"], {"page": 1, "line": 1})
         self.assertEqual(record["audio"], f"words/{audio_id('בָּרָא')}.wav")
 
-    def test_plain_form_can_point_to_multiple_pronunciations(self):
+    def test_related_words_with_different_letters_are_not_grouped(self):
         corpus = {
             "schemaVersion": 1,
             "pages": {"1": {"1": "מֶלֶךְ מָלַךְ"}},
         }
         result = build_audio_index(corpus)
-        # Different letter sequences are not grouped just because they are related words.
+        self.assertIn("מלך", result["plainForms"])
+        self.assertIn("מלכ", result["plainForms"])
         self.assertEqual(len(result["plainForms"]["מלך"]), 1)
-        self.assertEqual(len(result["plainForms"]["מלך"]), 1)
+        self.assertEqual(len(result["plainForms"]["מלכ"]), 1)
 
     def test_same_plain_letters_keep_separate_vocalized_forms(self):
         corpus = {
