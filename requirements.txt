@@ -1,0 +1,8 @@
+numpy
+pypdfium2
+edge-tts
+truststore
+Pillow
+pyinstaller
+espeakng-loader
+language-tags
